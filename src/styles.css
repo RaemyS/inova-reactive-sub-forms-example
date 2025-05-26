@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem;
+}
+
+input, fieldset, button {
+  width: 50%;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+.error-message {
+  color: red;
+}
+
+.error-input {
+  border: 1px solid red;
+}

@@ -1,0 +1,38 @@
+<!-- Die Root Reactive Form. Enthält sowohl dynamische weitere Form-Items, wie darin auch jeweils eine custom CVA-Component. -->
+<form class="form-container" [formGroup]="form" (ngSubmit)="onSave()">
+
+  <!-- Primitive Felder, direkt im Root der Form -->
+  <label>
+    Erster Text
+    <input formControlName="text1" placeholder="Dein erster Text" [class.error-input]="showError(form.get('text1'))">
+  </label>
+
+  <label>
+    Zweiter Text
+    <input formControlName="text2" placeholder="Dein zweiter Text" [class.error-input]="showError(form.get('text2'))">
+  </label>
+
+  <!-- Fehlermeldungen für alle Felder -->
+  @if (form.invalid && form.dirty || form.touched) {
+    <div>
+      @if ((form.get('text1')?.errors ?? {})[ 'required' ] && showError(form.get('text1'))) {
+        <div class="error-message">Test 1 ist ein Pflichtfeld</div>
+      }
+      @if ((form.get('text2')?.errors ?? {})[ 'required' ] && showError(form.get('text2'))) {
+        <div class="error-message">Test 2 ist ein Pflichtfeld</div>
+      }
+    </div>
+  }
+
+  <!-- Dynamische SubForms -->
+  <fieldset formArrayName="subFormItems">
+    @for (item of subFormItems.controls; track item; let index = $index) {
+      Sub-Form {{index}}
+      <app-my-fancy-sub-form [item]="item"></app-my-fancy-sub-form>
+    }
+  </fieldset>
+
+  <!-- Submit-Button ist deaktiviert, wenn die Form noch nicht valide ist -->
+  <!-- Da ein Superuser das aber im DOM umgehen kann, muss das auch noch in der Submit-Funktion validiert werden. -->
+  <button type="submit" [disabled]="form.invalid">Speichern</button>
+</form>

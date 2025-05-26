@@ -1,0 +1,40 @@
+<!-- Form Controls für alle Sub-Forms. Kann nur innerhalb der Root-Form sinnvoll existieren -->
+<div class="form-container" [formGroup]="item">
+  <label>
+    Erster Text in einer Sub-Form
+    <input formControlName="subText1" placeholder="Dein erster Text in der Sub-Form" [class.error-input]="showError(itemFormControls.subText1)">
+  </label>
+
+  <label>
+    Zweiter Text in einer Sub-Form
+    <input formControlName="subText2" placeholder="Dein zweiter Text in der Sub-Form" [class.error-input]="showError(itemFormControls.subText2)">
+  </label>
+
+  <label>
+    Kategorie und Beschreibung (CVA-Custom-Komponente)
+    <app-my-fancy-custom-control formControlName="categoryWithDescription" [class.error-input]="showError(itemFormControls.categoryWithDescription)"></app-my-fancy-custom-control>
+  </label>
+</div>
+
+<!-- Fehlermeldungen für alle Felder -->
+@if (item.invalid && item.dirty || item.touched) {
+  <div>
+    @if ((itemFormControls.subText1.errors ?? {})['required'] && showError(itemFormControls.subText1)) {
+      <div class="error-message">Test 1 ist ein Pflichtfeld</div>
+    }
+
+    @if ((itemFormControls.subText2.errors ?? {})['required'] && showError(itemFormControls.subText2)) {
+      <div class="error-message">Test 2 ist ein Pflichtfeld</div>
+    }
+
+    @if ((itemFormControls.categoryWithDescription.errors ?? { requiredFields: {} })['requiredFields']['category'] && showError(itemFormControls.categoryWithDescription)) {
+      <div class="error-message">Kategorie ist ein Pflichtfeld</div>
+    }
+
+    @if ((itemFormControls.categoryWithDescription.errors ?? { requiredFields: {} })['requiredFields']['description'] && showError(itemFormControls.categoryWithDescription)) {
+      <div class="error-message">Beschreibung ist ein Pflichtfeld</div>
+    }
+  </div>
+}
+
+<hr>
